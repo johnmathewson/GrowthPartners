@@ -1,0 +1,9 @@
+{
+  "name": "growth-partners-site",
+  "version": "1.0.0",
+  "description": "Growth Partners - Small Business Consulting & AI Services in Northwest Indiana",
+  "private": true,
+  "dependencies": {
+    "jsonwebtoken": "^9.0.0"
+  }
+}
