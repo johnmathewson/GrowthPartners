@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Growth Partners — AI Consultation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0b;
+      --text: #fafafa;
+      --text-muted: #a0a0a8;
+      --teal: #1AA6B7;
+      --teal-dark: #148a98;
+      --coral: #FE424D;
+      --surface: #141416;
+      --border: #2a2a2e;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Pre-join screen ── */
+    #prejoin {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px 36px 40px;
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      margin-bottom: 32px;
+    }
+    .logo span { color: var(--teal); }
+
+    .card h1 {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .card .subtitle {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-bottom: 32px;
+    }
+
+    .field {
+      width: 100%;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 16px;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .field input:focus { border-color: var(--teal); }
+    .field input::placeholder { color: #555; }
+
+    /* ── Glow button ── */
+    .join-btn-wrap {
+      position: relative;
+      margin: 28px auto 24px;
+    }
+
+    .join-btn {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      padding: 16px 24px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.25s;
+    }
+    .join-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(26,166,183,0.35); }
+    .join-btn:active { transform: translateY(0); }
+
+    /* animated gradient glow */
+    .join-btn-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 14px;
+      background: linear-gradient(270deg, var(--teal), var(--coral), var(--teal), var(--coral));
+      background-size: 600% 600%;
+      animation: glow-shift 4s ease infinite;
+      z-index: 0;
+      filter: blur(6px);
+      opacity: 0.6;
+    }
+
+    @keyframes glow-shift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .note {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ── Meeting container ── */
+    #meeting {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: var(--bg);
+    }
+    #meeting iframe { width: 100% !important; height: 100% !important; border: none; }
+
+    /* ── Thanks screen ── */
+    #thanks {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      text-align: center;
+    }
+
+    #thanks .card h1 { margin-bottom: 12px; }
+
+    #thanks .card p {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .site-link {
+      display: inline-block;
+      padding: 14px 32px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      border-radius: 10px;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.25s;
+    }
+    .site-link:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(26,166,183,0.3); }
+
+    /* ── Responsive ── */
+    @media (max-width: 500px) {
+      .card { padding: 36px 24px 32px; border-radius: 16px; }
+      .card h1 { font-size: 24px; }
+      .logo { font-size: 19px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pre-join screen -->
+  <div id="prejoin">
+    <div class="card">
+      <div class="logo">Growth <span>Studios</span></div>
+      <h1>Your AI Consultation</h1>
+      <p class="subtitle">You are about to join a private video session.</p>
+
+      <div class="field">
+        <label for="nameInput">Your name</label>
+        <input id="nameInput" type="text" placeholder="Enter your name" autocomplete="name">
+      </div>
+
+      <div class="join-btn-wrap">
+        <button class="join-btn" id="joinBtn">Join Meeting</button>
+      </div>
+
+      <p class="note">Camera is optional &bull; This call may be recorded for your benefit</p>
+    </div>
+  </div>
+
+  <!-- Meeting container (Jitsi iframe goes here) -->
+  <div id="meeting"></div>
+
+  <!-- Thanks screen -->
+  <div id="thanks">
+    <div class="card">
+      <div class="logo">Growth <span>Studios</span></div>
+      <h1>Thanks for joining!</h1>
+      <p>We appreciate your time. If you have follow-up questions, our team is always here to help you grow.</p>
+      <a class="site-link" href="https://mygrowthconsultants.com">Back to Growth Partners</a>
+    </div>
+  </div>
+
+  <!-- Jitsi JaaS API (loaded on demand) -->
+  <script>
+    (function () {
+      const APP_ID = 'vpaas-magic-cookie-52d2fb052ed44eeda28067f20b0f2812';
+      const API_SRC = 'https://8x8.vc/' + APP_ID + '/external_api.js';
+
+      /* ── Parse query params ── */
+      const params = new URLSearchParams(window.location.search);
+      const roomParam = params.get('room') || generateRoom();
+      const nameParam = params.get('name') || '';
+      const tokenParam = params.get('token') || null;
+
+      function generateRoom() {
+        const seg = () => Math.random().toString(36).substring(2, 8);
+        return 'consultation-' + seg() + seg();
+      }
+
+      /* Pre-fill name */
+      const nameInput = document.getElementById('nameInput');
+      if (nameParam) nameInput.value = nameParam;
+
+      /* ── Join button ── */
+      document.getElementById('joinBtn').addEventListener('click', function () {
+        const displayName = nameInput.value.trim() || 'Guest';
+        loadJitsiAPI(function () {
+          startMeeting(displayName);
+        });
+      });
+
+      /* Allow Enter key */
+      nameInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') document.getElementById('joinBtn').click();
+      });
+
+      /* ── Load the external API script ── */
+      function loadJitsiAPI(cb) {
+        if (window.JitsiMeetExternalAPI) return cb();
+        var s = document.createElement('script');
+        s.src = API_SRC;
+        s.onload = cb;
+        s.onerror = function () { alert('Could not load the meeting service. Please refresh and try again.'); };
+        document.head.appendChild(s);
+      }
+
+      /* ── Launch Jitsi ── */
+      function startMeeting(displayName) {
+        document.getElementById('prejoin').style.display = 'none';
+        var meetingEl = document.getElementById('meeting');
+        meetingEl.style.display = 'block';
+
+        var options = {
+          roomName: APP_ID + '/' + roomParam,
+          parentNode: meetingEl,
+          width: '100%',
+          height: '100%',
+          configOverwrite: {
+            prejoinPageEnabled: false,
+            disableDeepLinking: true,
+            startWithAudioMuted: false,
+            startWithVideoMuted: true,
+            enableRecording: true,
+            toolbarButtons: [
+              'microphone', 'camera', 'chat', 'recording',
+              'raisehand', 'tileview', 'fullscreen', 'hangup'
+            ]
+          },
+          interfaceConfigOverwrite: {
+            SHOW_JITSI_WATERMARK: false,
+            SHOW_WATERMARK_FOR_GUESTS: false,
+            SHOW_POWERED_BY: false,
+            SHOW_PROMOTIONAL_CLOSE_PAGE: false,
+            TOOLBAR_BUTTONS: [
+              'microphone', 'camera', 'chat', 'recording',
+              'raisehand', 'tileview', 'fullscreen', 'hangup'
+            ],
+            APP_NAME: 'Growth Partners',
+            PROVIDER_NAME: 'Growth Partners'
+          },
+          userInfo: {
+            displayName: displayName
+          }
+        };
+
+        if (tokenParam) {
+          options.jwt = tokenParam;
+        }
+
+        var api = new JitsiMeetExternalAPI('8x8.vc', options);
+
+        api.addListener('readyToClose', function () {
+          api.dispose();
+          meetingEl.style.display = 'none';
+          document.getElementById('thanks').style.display = 'flex';
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

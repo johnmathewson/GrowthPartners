@@ -1,0 +1,9 @@
+{
+  "name": "growth-partners-netlify-functions",
+  "version": "1.0.0",
+  "description": "Netlify serverless functions for Growth Partners, including JaaS JWT token generation.",
+  "private": true,
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2"
+  }
+}

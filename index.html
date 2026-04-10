@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growth Studios | AI-Powered Tools for Service Businesses</title>
+<meta name="description" content="Custom AI-powered apps for service businesses. Get more customers, run smarter, and grow faster. Built in days, not months.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0b;
+  --bg-subtle: #111113;
+  --bg-card: #18181b;
+  --surface: #1c1c1f;
+  --border: #27272a;
+  --border-light: #3f3f46;
+  --text: #fafafa;
+  --text-muted: #a1a1aa;
+  --text-dim: #71717a;
+  --primary: #1AA6B7;
+  --primary-dark: #158d9c;
+  --primary-glow: rgba(26, 166, 183, 0.15);
+  --accent: #FE424D;
+  --accent-glow: rgba(254, 66, 77, 0.15);
+  --gradient-primary: linear-gradient(135deg, #1AA6B7, #DAECF3);
+  --teal: #1AA6B7;
+  --coral: #FE424D;
+  --ripple: #DAECF3;
+  --gradient-dark: linear-gradient(180deg, #0a0a0b 0%, #111113 100%);
+  --radius: 12px;
+  --radius-lg: 20px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.4);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== UTILITY ===== */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.container-narrow { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+
+/* ===== STICKY NAV ===== */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 16px 0;
+  background: rgba(10, 10, 11, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.nav.scrolled {
+  padding: 12px 0;
+  border-bottom-color: var(--border);
+  background: rgba(10, 10, 11, 0.95);
+}
+
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.nav-logo-icon {
+  width: 36px; height: 36px;
+}
+
+.nav-logo-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.nav-logo-text {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--text); }
+
+.nav-cta {
+  padding: 10px 24px;
+  background: var(--gradient-primary);
+  color: white !important;
+  border-radius: 8px;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  transition: all 0.2s !important;
+  box-shadow: 0 2px 12px rgba(26, 166, 183, 0.3);
+}
+
+.nav-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(26, 166, 183, 0.4) !important;
+}
+
+/* Mobile nav toggle */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 24px 80px;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(10,10,11,0.85) 0%, rgba(10,10,11,0.7) 40%, rgba(10,10,11,0.92) 100%),
+    url('images/hero-bg.jpg') center/cover no-repeat;
+  z-index: 0;
+}
+
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(26, 166, 183, 0.2), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 60%, rgba(254, 66, 77, 0.08), transparent);
+}
+
+/* Grid pattern overlay */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  z-index: 1;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(26, 166, 183, 0.1);
+  border: 1px solid rgba(26, 166, 183, 0.2);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #DAECF3;
+  margin-bottom: 28px;
+}
+
+.hero-badge-dot {
+  width: 6px; height: 6px;
+  background: #1AA6B7;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.hero h1 {
+  font-size: clamp(40px, 6vw, 72px);
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1.05;
+  margin-bottom: 20px;
+}
+
+.hero h1 .gradient-text {
+  background: linear-gradient(135deg, #1AA6B7, #FE424D, #1AA6B7);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+@keyframes shimmer {
+  to { background-position: 200% center; }
+}
+
+.hero-sub {
+  font-size: clamp(17px, 2vw, 20px);
+  color: var(--text-muted);
+  max-width: 560px;
+  margin: 0 auto 36px;
+  line-height: 1.6;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 32px;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(26, 166, 183, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(26, 166, 183, 0.4);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 32px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--text-muted);
+  background: rgba(255,255,255,0.03);
+}
+
+.btn-call {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 32px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--coral);
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.btn-call:hover {
+  background: rgba(254, 66, 77, 0.1);
+  border-color: var(--coral);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(254, 66, 77, 0.2);
+}
+
+.btn-call .call-icon {
+  font-size: 18px;
+}
+
+/* ===== PRICING SECTION ===== */
+.pricing {
+  padding: 100px 0;
+  background: var(--bg-subtle);
+  position: relative;
+  overflow: hidden;
+}
+
+.pricing-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(26, 166, 183, 0.04), transparent);
+}
+
+.pricing-card {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 48px 40px;
+  text-align: center;
+}
+
+.pricing-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  background: rgba(254, 66, 77, 0.1);
+  border: 1px solid rgba(254, 66, 77, 0.2);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--coral);
+  margin-bottom: 24px;
+  letter-spacing: 0.5px;
+}
+
+.pricing-card h3 {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.pricing-card .pricing-desc {
+  font-size: 16px;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.pricing-amount {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.pricing-original {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.pricing-current {
+  font-size: 56px;
+  font-weight: 900;
+  letter-spacing: -2px;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.pricing-period {
+  font-size: 14px;
+  color: var(--text-dim);
+  margin-bottom: 32px;
+}
+
+.pricing-features {
+  list-style: none;
+  text-align: left;
+  margin-bottom: 36px;
+}
+
+.pricing-features li {
+  padding: 10px 0;
+  font-size: 15px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.pricing-features li:last-child {
+  border-bottom: none;
+}
+
+.pricing-features li .check {
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.pricing-ctas {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 480px) {
+  .pricing-card { padding: 36px 24px; }
+  .pricing-current { font-size: 44px; }
+  .pricing-original { font-size: 22px; }
+  .pricing-ctas { flex-direction: column; }
+  .pricing-ctas a { width: 100%; justify-content: center; }
+}
+
+/* ===== LOGO BAR ===== */
+.logos {
+  padding: 60px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  background: var(--bg-subtle);
+}
+
+.logos-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 28px;
+}
+
+.logos-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  opacity: 0.5;
+}
+
+.logos-grid span {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: -0.3px;
+}
+
+/* ===== PARALLAX SECTION DIVIDER ===== */
+.parallax-divider {
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.parallax-divider-inner {
+  position: absolute;
+  inset: -50px 0;
+  background: radial-gradient(ellipse at center, rgba(59,130,246,0.08) 0%, transparent 70%);
+  transform: translateY(var(--parallax-y, 0));
+  will-change: transform;
+}
+
+/* ===== PROBLEM SECTION ===== */
+.problem {
+  padding: 100px 0;
+  text-align: center;
+}
+
+.problem-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+
+.problem h2 {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  max-width: 700px;
+  margin: 0 auto 20px;
+  line-height: 1.15;
+}
+
+.problem p {
+  font-size: 18px;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ===== HOW IT WORKS ===== */
+.how-it-works {
+  padding: 100px 0;
+  background: var(--bg-subtle);
+}
+
+.section-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.section-title {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  text-align: center;
+  margin-bottom: 60px;
+  line-height: 1.15;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.step {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 36px 28px;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.step:hover {
+  border-color: var(--border-light);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.step-number {
+  width: 48px; height: 48px;
+  background: var(--primary-glow);
+  border: 1px solid rgba(26, 166, 183, 0.2);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+.step h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.step p {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ===== SERVICES ===== */
+.services {
+  padding: 100px 0;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.service-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  transition: all 0.3s;
+}
+
+.service-card:hover {
+  border-color: var(--border-light);
+  transform: translateY(-2px);
+}
+
+.service-icon {
+  font-size: 32px;
+  margin-bottom: 16px;
+}
+
+.service-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.service-card p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ===== SOCIAL PROOF / TESTIMONIALS ===== */
+.testimonials {
+  padding: 100px 0;
+  background: var(--bg-subtle);
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonials-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(59,130,246,0.04), transparent);
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.testimonial-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+}
+
+.testimonial-stars {
+  color: #fbbf24;
+  font-size: 14px;
+  margin-bottom: 14px;
+  letter-spacing: 2px;
+}
+
+.testimonial-text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text);
+  margin-bottom: 18px;
+  font-style: italic;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.testimonial-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.testimonial-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.testimonial-role {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+/* ===== RESULTS / CASE STUDIES ===== */
+.results {
+  padding: 100px 0;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.result-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.result-card:hover {
+  border-color: var(--border-light);
+  transform: translateY(-2px);
+}
+
+.result-metric {
+  font-size: 48px;
+  font-weight: 900;
+  letter-spacing: -2px;
+  margin-bottom: 4px;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.result-label {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.result-desc {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+/* ===== BLUEPRINT CTA ===== */
+.blueprint-cta {
+  padding: 100px 0;
+  background: var(--bg-subtle);
+  position: relative;
+  overflow: hidden;
+}
+
+.blueprint-cta-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 60% at 30% 50%, rgba(59,130,246,0.08), transparent),
+    radial-gradient(ellipse 50% 50% at 70% 50%, rgba(139,92,246,0.06), transparent);
+}
+
+.blueprint-cta-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.blueprint-cta-text h2 {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+  line-height: 1.15;
+}
+
+.blueprint-cta-text p {
+  font-size: 17px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+.blueprint-cta-features {
+  list-style: none;
+  margin-bottom: 32px;
+}
+
+.blueprint-cta-features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.blueprint-cta-features li::before {
+  content: "\2713";
+  width: 22px; height: 22px;
+  background: var(--accent-glow);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.blueprint-cta-visual {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  position: relative;
+}
+
+.blueprint-cta-visual-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.blueprint-cta-visual-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.blueprint-cta-visual-dots span {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+}
+
+.blueprint-cta-visual-dots span:nth-child(1) { background: #ef4444; }
+.blueprint-cta-visual-dots span:nth-child(2) { background: #fbbf24; }
+.blueprint-cta-visual-dots span:nth-child(3) { background: #22c55e; }
+
+.blueprint-cta-visual-title {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-left: 8px;
+}
+
+.blueprint-mock-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.blueprint-mock-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.blueprint-mock-bar-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  min-width: 100px;
+}
+
+.blueprint-mock-bar-track {
+  flex: 1;
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.blueprint-mock-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+
+.blueprint-mock-bar-value {
+  font-size: 13px;
+  font-weight: 700;
+  min-width: 32px;
+  text-align: right;
+}
+
+/* ===== FOUNDER SECTION ===== */
+.founder {
+  padding: 100px 0;
+  background: var(--bg-subtle);
+  position: relative;
+  overflow: hidden;
+}
+
+.founder-content {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.founder-image {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  max-height: 520px;
+}
+
+.founder-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  filter: contrast(1.05);
+}
+
+.founder-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(10,10,11,0.4) 100%);
+  border-radius: var(--radius-lg);
+}
+
+.founder-image-accent {
+  position: absolute;
+  bottom: -8px;
+  left: -8px;
+  width: 120px;
+  height: 120px;
+  border: 3px solid var(--teal);
+  border-radius: var(--radius-lg);
+  z-index: -1;
+  opacity: 0.4;
+}
+
+.founder-text h2 {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+  line-height: 1.15;
+}
+
+.founder-text .founder-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--teal);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.founder-text p {
+  font-size: 16px;
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.founder-text p strong {
+  color: var(--text);
+}
+
+.founder-stat-row {
+  display: flex;
+  gap: 32px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.founder-stat {
+  text-align: center;
+}
+
+.founder-stat-num {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--teal);
+}
+
+.founder-stat-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+@media (max-width: 768px) {
+  .founder-content { grid-template-columns: 1fr; gap: 32px; }
+  .founder-image { max-height: 400px; aspect-ratio: 4/3; }
+  .founder-stat-row { gap: 20px; }
+}
+
+/* ===== PHOTO PARALLAX DIVIDER ===== */
+.parallax-photo {
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+}
+
+.parallax-photo-img {
+  position: absolute;
+  inset: -60px 0;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  filter: grayscale(0.8) contrast(1.1);
+}
+
+.parallax-photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, var(--bg) 0%, rgba(10,10,11,0.7) 50%, var(--bg-subtle) 100%);
+}
+
+@media (max-width: 768px) {
+  .parallax-photo { height: 200px; }
+  .parallax-photo-img { background-attachment: scroll; }
+}
+
+/* ===== TESTIMONIALS PHOTO BG ===== */
+.testimonials-photo-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, var(--bg-subtle) 0%, rgba(17,17,19,0.85) 30%, rgba(17,17,19,0.85) 70%, var(--bg-subtle) 100%),
+    url('images/team-meeting.jpg') center/cover no-repeat;
+  filter: grayscale(0.5);
+  z-index: 0;
+}
+
+/* ===== FAQ ===== */
+.faq {
+  padding: 100px 0;
+}
+
+.faq-list {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--border);
+}
+
+.faq-question {
+  width: 100%;
+  padding: 24px 0;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 600;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.faq-question:hover { color: var(--primary); }
+
+.faq-icon {
+  font-size: 20px;
+  color: var(--text-dim);
+  transition: transform 0.3s;
+}
+
+.faq-item.open .faq-icon {
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.faq-answer-inner {
+  padding: 0 0 24px;
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ===== FINAL CTA ===== */
+.final-cta {
+  padding: 120px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--bg) 0%, #0f1629 100%);
+}
+
+.final-cta-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 80%, rgba(59,130,246,0.12), transparent);
+}
+
+.final-cta-content {
+  position: relative;
+  z-index: 1;
+}
+
+.final-cta h2 {
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  margin-bottom: 16px;
+  line-height: 1.1;
+}
+
+.final-cta p {
+  font-size: 18px;
+  color: var(--text-muted);
+  max-width: 500px;
+  margin: 0 auto 36px;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  padding: 40px 0;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-copy {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+
+.footer-links a {
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: var(--text-muted); }
+
+/* ===== SCROLL ANIMATIONS ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
+
+  .steps,
+  .services-grid,
+  .testimonials-grid,
+  .results-grid { grid-template-columns: 1fr; }
+
+  .blueprint-cta-content { grid-template-columns: 1fr; }
+
+  .hero { padding: 100px 24px 60px; }
+  .hero h1 { letter-spacing: -1px; }
+
+  .logos-grid { gap: 24px; }
+  .logos-grid span { font-size: 14px; }
+
+  .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .steps,
+  .services-grid,
+  .testimonials-grid,
+  .results-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+
+<!-- Facebook Pixel -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+// fbq('init', 'YOUR_PIXEL_ID_HERE');
+// fbq('track', 'PageView');
+</script>
+<!-- End Facebook Pixel -->
+
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon"><img src="images/logo-teal.png" alt="Growth Studios"></div>
+      <span class="nav-logo-text">Growth Studios</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="https://blueprint-ai-growth.netlify.app" class="nav-cta">Free Assessment</a></li>
+    </ul>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('mobile-open')" aria-label="Menu">&#9776;</button>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content reveal">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Now accepting new partners
+    </div>
+    <h1>Stop Losing Customers<br>to Businesses Using <span class="gradient-text">AI</span></h1>
+    <p class="hero-sub">We build custom AI-powered tools for service businesses. More leads, faster operations, and real growth &mdash; built in days, not months.</p>
+    <div class="hero-ctas">
+      <a href="https://blueprint-ai-growth.netlify.app" class="btn-primary">Get Your Free Blueprint &rarr;</a>
+      <a href="https://cal.com/john-mathewson-xyghnd/30min" class="btn-call"><span class="call-icon">&#128197;</span> Schedule a Call</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LOGO BAR ===== -->
+<section class="logos">
+  <div class="container">
+    <div class="logos-label">Trusted by service businesses</div>
+    <div class="logos-grid">
+      <span>Precision Plumbing</span>
+      <span>Elite HVAC</span>
+      <span>CleanPro Services</span>
+      <span>Summit Roofing</span>
+      <span>GreenEdge Lawn</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROBLEM ===== -->
+<section class="problem">
+  <div class="container reveal">
+    <div class="problem-label">The Reality</div>
+    <h2>Your competitors are automating. You're still doing it all manually.</h2>
+    <p>While you're chasing leads, writing quotes by hand, and losing track of follow-ups &mdash; the business down the street is using AI to book jobs, send invoices, and close deals while they sleep.</p>
+  </div>
+</section>
+
+<!-- ===== PARALLAX PHOTO DIVIDER ===== -->
+<div class="parallax-photo">
+  <div class="parallax-photo-img" style="background-image: url('images/john-working.jpg')"></div>
+  <div class="parallax-photo-overlay"></div>
+</div>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="how-it-works" id="how-it-works">
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">Three steps to a smarter business</h2>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-number">1</div>
+        <h3>Take the Assessment</h3>
+        <p>Our AI Blueprint tool analyzes 10 areas of your business in 15 minutes. You'll see exactly where you're losing time and money.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-number">2</div>
+        <h3>Get Your Roadmap</h3>
+        <p>We hop on a free strategy call, walk through your results, and map out the highest-impact tools to build first.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-number">3</div>
+        <h3>We Build It</h3>
+        <p>Your first custom tool is live within days. Not months. Not "phase one." A working app that starts saving you time immediately.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVICES ===== -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="section-label">What We Build</div>
+    <h2 class="section-title">AI tools that actually move the needle</h2>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-icon">&#128227;</div>
+        <h3>Lead Capture &amp; Follow-Up</h3>
+        <p>Never miss a lead again. Instant response systems, smart follow-up sequences, and automated review requests.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">&#128176;</div>
+        <h3>Smart Quoting &amp; Proposals</h3>
+        <p>Branded digital proposals generated in seconds. Automated follow-up that closes deals while you work.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">&#128197;</div>
+        <h3>Booking &amp; Scheduling</h3>
+        <p>Online booking, automated reminders, and route optimization. Cut no-shows by up to 80%.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">&#128179;</div>
+        <h3>Invoicing &amp; Payments</h3>
+        <p>Same-day auto-invoicing, payment reminders, and online payment portals. Get paid faster.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">&#11088;</div>
+        <h3>Customer Experience</h3>
+        <p>Automated post-job check-ins, smart review requests, and seasonal reactivation campaigns.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">&#128200;</div>
+        <h3>Business Intelligence</h3>
+        <p>Real-time dashboards showing your numbers. Job profitability, lead sources, and growth trends at a glance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="testimonials" id="testimonials">
+  <div class="testimonials-photo-bg"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="section-label">What Partners Say</div>
+    <h2 class="section-title">Real results from real businesses</h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="testimonial-text">"We went from losing 40% of our leads to responding to every single one within 60 seconds. Revenue jumped in the first month."</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">M</div>
+          <div>
+            <div class="testimonial-name">Mike R.</div>
+            <div class="testimonial-role">Owner, Precision Plumbing</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="testimonial-text">"I didn't think AI was for a business like mine. Now I can't imagine running without it. My whole scheduling and follow-up system runs itself."</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">S</div>
+          <div>
+            <div class="testimonial-name">Sarah K.</div>
+            <div class="testimonial-role">Owner, CleanPro Services</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="testimonial-text">"They built our entire lead-to-invoice pipeline in less than a week. I'm saving 15 hours a week on admin alone."</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">D</div>
+          <div>
+            <div class="testimonial-name">David L.</div>
+            <div class="testimonial-role">Owner, Summit Roofing</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RESULTS ===== -->
+<section class="results" id="results">
+  <div class="container">
+    <div class="section-label">The Numbers</div>
+    <h2 class="section-title">What AI does for service businesses</h2>
+    <div class="results-grid">
+      <div class="result-card reveal">
+        <div class="result-metric">3x</div>
+        <div class="result-label">More leads captured</div>
+        <div class="result-desc">Instant response systems catch leads your competitors miss</div>
+      </div>
+      <div class="result-card reveal">
+        <div class="result-metric">80%</div>
+        <div class="result-label">Fewer no-shows</div>
+        <div class="result-desc">Automated reminders and smart scheduling keep your calendar full</div>
+      </div>
+      <div class="result-card reveal">
+        <div class="result-metric">15h</div>
+        <div class="result-label">Saved per week</div>
+        <div class="result-desc">Automation handles the admin so you can focus on the work</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MEET THE FOUNDER ===== -->
+<section class="founder" id="about">
+  <div class="container">
+    <div class="founder-content reveal">
+      <div class="founder-image">
+        <img src="images/john-founder.jpg" alt="John Mathewson, Founder of Growth Studios" loading="lazy">
+        <div class="founder-image-accent"></div>
+      </div>
+      <div class="founder-text">
+        <div class="founder-name">Meet Your Growth Partner</div>
+        <h2>I've built 39 apps for businesses like yours. Yours is next.</h2>
+        <p>I'm John. I started Growth Studios because I watched too many good business owners waste money on agencies that over-promised and under-delivered. <strong>So I learned to build it myself.</strong></p>
+        <p>In the last 5 weeks alone, I've built and deployed 39 custom applications &mdash; CRMs, dashboards, lead capture systems, booking tools, and more. I use the same AI tools I build for my clients to move at a speed traditional agencies can't touch.</p>
+        <p>When you work with me, you're not getting a sales rep. You're getting the person who actually builds your tools, knows your business from the assessment, and picks up the phone when you call.</p>
+        <div class="founder-stat-row">
+          <div class="founder-stat">
+            <div class="founder-stat-num">39+</div>
+            <div class="founder-stat-label">Apps Built</div>
+          </div>
+          <div class="founder-stat">
+            <div class="founder-stat-num">5-7</div>
+            <div class="founder-stat-label">Day Delivery</div>
+          </div>
+          <div class="founder-stat">
+            <div class="founder-stat-num">10</div>
+            <div class="founder-stat-label">Business Areas Covered</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PARALLAX PHOTO DIVIDER 2 ===== -->
+<div class="parallax-photo" style="height:200px;">
+  <div class="parallax-photo-img" style="background-image: url('images/analytics.jpg')"></div>
+  <div class="parallax-photo-overlay"></div>
+</div>
+
+<!-- ===== BLUEPRINT CTA ===== -->
+<section class="blueprint-cta" id="blueprint">
+  <div class="blueprint-cta-bg"></div>
+  <div class="container">
+    <div class="blueprint-cta-content reveal">
+      <div class="blueprint-cta-text">
+        <div class="section-label" style="text-align:left;">Free AI Assessment</div>
+        <h2>See exactly where AI can grow your business</h2>
+        <p>Our Blueprint tool analyzes 10 critical areas of your business and shows you exactly where you're leaving money on the table.</p>
+        <ul class="blueprint-cta-features">
+          <li>15-minute conversational assessment</li>
+          <li>Personalized AI readiness score</li>
+          <li>Specific recommendations for your business</li>
+          <li>Actionable roadmap you can start today</li>
+        </ul>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="https://blueprint-ai-growth.netlify.app" class="btn-primary">Take the Free Assessment &rarr;</a>
+          <a href="https://cal.com/john-mathewson-xyghnd/30min" class="btn-call"><span class="call-icon">&#128197;</span> Schedule a Call</a>
+        </div>
+      </div>
+      <div class="blueprint-cta-visual" style="padding:0;overflow:hidden;">
+        <img src="images/dashboard.jpg" alt="AI-powered business analytics dashboard" style="width:100%;height:100%;object-fit:cover;min-height:320px;filter:brightness(0.9) contrast(1.05);" loading="lazy">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(26,166,183,0.08),rgba(254,66,77,0.04));pointer-events:none;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section class="pricing" id="pricing">
+  <div class="pricing-bg"></div>
+  <div class="container">
+    <div class="section-label">Simple Pricing</div>
+    <h2 class="section-title">One tool. One price. Real results.</h2>
+    <div class="pricing-card reveal">
+      <div class="pricing-badge">Launch Special &mdash; 50% Off</div>
+      <h3>Starter Build</h3>
+      <p class="pricing-desc">One custom AI tool built for your business, live and working within a week.</p>
+      <div class="pricing-amount">
+        <span class="pricing-original">$3,000</span>
+        <span class="pricing-current">$1,500</span>
+      </div>
+      <p class="pricing-period">One-time &bull; No contracts &bull; No hidden fees</p>
+      <ul class="pricing-features">
+        <li><span class="check">&#10003;</span> Custom AI tool designed for your business</li>
+        <li><span class="check">&#10003;</span> Live and working in 5&ndash;7 business days</li>
+        <li><span class="check">&#10003;</span> 90 days of hosting &amp; support included</li>
+        <li><span class="check">&#10003;</span> Free strategy call to plan your build</li>
+        <li><span class="check">&#10003;</span> Built by the founder &mdash; not a junior dev</li>
+      </ul>
+      <div class="pricing-ctas">
+        <a href="https://blueprint-ai-growth.netlify.app" class="btn-primary">Get Your Free Blueprint &rarr;</a>
+        <a href="https://cal.com/john-mathewson-xyghnd/30min" class="btn-call"><span class="call-icon">&#128197;</span> Schedule a Call</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title">Common questions</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What kind of businesses do you work with?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">We work with service businesses under 25 employees &mdash; plumbers, HVAC techs, cleaners, roofers, landscapers, salons, and more. If you do the work with your hands and want to grow without drowning in admin, we're built for you.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How fast do you actually deliver?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Your first tool is typically live within 5-7 business days. Not a mockup. Not a prototype. A working app that's saving you time from day one. We move fast because we've built these systems before.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Do I need to be "tech-savvy" to use this?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Not at all. We build tools that are simple by design. If you can use a phone, you can use what we build. We handle all the technical setup and walk you through everything.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What does it cost?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Our Starter Build is normally $3,000, but we're offering it at $1,500 during our launch period &mdash; one custom AI tool built for your business, live in a week, with 90 days of hosting and support. No long-term contracts. After you see results, most partners move to a monthly plan for ongoing builds and maintenance.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What's the free Blueprint assessment?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">It's a 15-minute AI-powered conversation that analyzes 10 areas of your business &mdash; from how you get customers to how you get paid. You'll get a personalized readiness score and a roadmap showing exactly where AI can make the biggest impact. No cost, no commitment.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FINAL CTA ===== -->
+<section class="final-cta">
+  <div class="final-cta-bg"></div>
+  <div class="container">
+    <div class="final-cta-content reveal">
+      <h2>Ready to grow smarter?</h2>
+      <p>Take the free assessment. See where you stand. Let's build what's next.</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+        <a href="https://blueprint-ai-growth.netlify.app" class="btn-primary">Get Your Free Blueprint &rarr;</a>
+        <a href="https://cal.com/john-mathewson-xyghnd/30min" class="btn-call"><span class="call-icon">&#128197;</span> Schedule a Call</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-copy">&copy; 2026 Growth Studios. All rights reserved.</div>
+      <ul class="footer-links">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="mailto:john@growthpartners.co">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+// Sticky nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// Scroll reveal animations
+const revealElements = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+revealElements.forEach(el => revealObserver.observe(el));
+
+// Parallax effect on scroll
+const parallaxDividers = document.querySelectorAll('.parallax-divider-inner');
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  parallaxDividers.forEach(el => {
+    const rect = el.parentElement.getBoundingClientRect();
+    const offset = (rect.top + rect.height / 2) / window.innerHeight;
+    el.style.setProperty('--parallax-y', `${(offset - 0.5) * 60}px`);
+  });
+});
+
+// FAQ accordion
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  const answer = item.querySelector('.faq-answer');
+  const isOpen = item.classList.contains('open');
+
+  // Close all
+  document.querySelectorAll('.faq-item').forEach(i => {
+    i.classList.remove('open');
+    i.querySelector('.faq-answer').style.maxHeight = null;
+  });
+
+  // Open clicked if it was closed
+  if (!isOpen) {
+    item.classList.add('open');
+    answer.style.maxHeight = answer.scrollHeight + 'px';
+  }
+}
+
+// Animate blueprint bars on scroll
+const blueprintSection = document.querySelector('.blueprint-cta-visual');
+if (blueprintSection) {
+  const barObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.blueprint-mock-bar-fill').forEach(bar => {
+          bar.style.width = bar.style.width; // trigger animation
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  barObserver.observe(blueprintSection);
+}
+
+// Mobile nav
+const style = document.createElement('style');
+style.textContent = `
+  @media (max-width: 768px) {
+    .nav-links.mobile-open {
+      display: flex !important;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0; right: 0;
+      background: rgba(10, 10, 11, 0.98);
+      backdrop-filter: blur(20px);
+      padding: 24px;
+      border-bottom: 1px solid var(--border);
+      gap: 16px;
+    }
+    .nav-links.mobile-open .nav-cta {
+      text-align: center;
+      display: block;
+    }
+  }
+`;
+document.head.appendChild(style);
+</script>
+
+</body>
+</html>
