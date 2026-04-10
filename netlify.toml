@@ -23,7 +23,7 @@
   [headers.values]
     Cache-Control = "public, max-age=3600, must-revalidate"
 
-# Security headers
+# Security headers (all pages except /meet/)
 [[headers]]
   for = "/*"
   [headers.values]
@@ -31,3 +31,12 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Meeting page needs camera, microphone, and iframe embedding for Jitsi
+[[headers]]
+  for = "/meet/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(self https://8x8.vc), microphone=(self https://8x8.vc), geolocation=()"
