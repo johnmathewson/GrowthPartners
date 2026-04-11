@@ -49,11 +49,16 @@
     }
 
     .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
       font-size: 22px;
       font-weight: 700;
       letter-spacing: -0.4px;
       margin-bottom: 32px;
     }
+    .logo img { height: 40px; width: auto; }
     .logo span { color: var(--teal); }
 
     .card h1 {
@@ -205,7 +210,7 @@
   <!-- Pre-join screen -->
   <div id="prejoin">
     <div class="card">
-      <div class="logo">Growth <span>Partners</span></div>
+      <div class="logo"><img src="/images/logo-white.png" alt="Growth Partners logo">Growth <span>Partners</span></div>
       <h1>Your AI Consultation</h1>
       <p class="subtitle">You are about to join a private video session.</p>
 
@@ -228,7 +233,7 @@
   <!-- Thanks screen -->
   <div id="thanks">
     <div class="card">
-      <div class="logo">Growth <span>Partners</span></div>
+      <div class="logo"><img src="/images/logo-white.png" alt="Growth Partners logo">Growth <span>Partners</span></div>
       <h1>Thanks for joining!</h1>
       <p>We appreciate your time. If you have follow-up questions, our team is always here to help you grow.</p>
       <a class="site-link" href="https://mygrowthconsultants.com">Back to Growth Partners</a>
