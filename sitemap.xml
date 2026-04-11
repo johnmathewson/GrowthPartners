@@ -443,7 +443,7 @@
     <priority>0.3</priority>
   </url>
 
-  <!-- SEO Resource Pages (Batch 50) --></urlset>
+  <!-- SEO Resource Pages (Batch 50) -->
   <url>
     <loc>https://mygrowthconsultants.com/pages/resources/</loc>
     <lastmod>2026-04-11</lastmod>
@@ -750,3 +750,4 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+</urlset>
