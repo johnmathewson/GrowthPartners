@@ -314,10 +314,14 @@
           height: '100%',
           configOverwrite: {
             prejoinPageEnabled: false,
+            prejoinConfig: { enabled: false },
             disableDeepLinking: true,
             startWithAudioMuted: false,
             startWithVideoMuted: true,
             enableRecording: true,
+            subject: 'AI Consultation',
+            hideConferenceSubject: false,
+            hideConferenceTimer: false,
             toolbarButtons: [
               'microphone', 'camera', 'chat', 'recording',
               'raisehand', 'tileview', 'fullscreen', 'hangup'
