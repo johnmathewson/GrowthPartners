@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Growth Partners — Host Meeting</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0a0a0b;
+      --text: #fafafa;
+      --text-muted: #a0a0a8;
+      --teal: #1AA6B7;
+      --teal-dark: #148a98;
+      --coral: #FE424D;
+      --surface: #141416;
+      --border: #2a2a2e;
+    }
+    html, body {
+      min-height: 100vh;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px 36px 40px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .logo img { height: 40px; width: auto; }
+    .logo span { color: var(--teal); }
+    .badge {
+      display: inline-block;
+      background: rgba(26,166,183,0.15);
+      color: var(--teal);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin: 0 auto 32px;
+      text-align: center;
+    }
+    .badge-wrap { text-align: center; }
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -0.4px;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 14px;
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .field {
+      width: 100%;
+      margin-bottom: 16px;
+      text-align: left;
+    }
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .field input {
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 16px;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .field input:focus { border-color: var(--teal); }
+    .field input::placeholder { color: #555; }
+    .btn {
+      width: 100%;
+      padding: 16px 24px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.25s;
+      margin-top: 12px;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(26,166,183,0.35); }
+    .btn:active { transform: translateY(0); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-join {
+      background: linear-gradient(135deg, var(--coral), #d4363f);
+      margin-top: 8px;
+    }
+    .btn-join:hover { box-shadow: 0 6px 24px rgba(254,66,77,0.35); }
+
+    /* ── Results ── */
+    #results { display: none; margin-top: 28px; }
+    .link-group {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .link-group h3 {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+    .link-group p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    .link-row {
+      display: flex;
+      gap: 8px;
+    }
+    .link-row input {
+      flex: 1;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      outline: none;
+    }
+    .copy-btn {
+      padding: 10px 16px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--teal);
+      background: rgba(26,166,183,0.1);
+      border: 1px solid rgba(26,166,183,0.3);
+      border-radius: 8px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .copy-btn:hover { background: rgba(26,166,183,0.2); }
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 24px 0;
+    }
+    .or-text {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 500;
+      margin: 12px 0;
+    }
+
+    /* ── Auth gate ── */
+    #auth-gate { display: block; }
+    #host-panel { display: none; }
+
+    @media (max-width: 500px) {
+      .card { padding: 36px 20px 32px; border-radius: 16px; }
+      h1 { font-size: 20px; }
+      .link-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="logo"><img src="/images/logo-white.png" alt="Growth Partners logo">Growth <span>Partners</span></div>
+      <div class="badge-wrap"><div class="badge">Host Dashboard</div></div>
+
+      <!-- Auth gate -->
+      <div id="auth-gate">
+        <h1>Host Access</h1>
+        <p class="subtitle">Enter your host PIN to create meeting rooms.</p>
+        <div class="field">
+          <label for="pinInput">Host PIN</label>
+          <input id="pinInput" type="password" placeholder="Enter PIN" autocomplete="off">
+        </div>
+        <button class="btn" id="authBtn">Unlock</button>
+        <p id="authError" style="color:var(--coral);font-size:13px;text-align:center;margin-top:12px;display:none;">Invalid PIN. Try again.</p>
+      </div>
+
+      <!-- Host panel (shown after auth) -->
+      <div id="host-panel">
+        <h1>Create Meeting Room</h1>
+        <p class="subtitle">Generate a private room for your next consultation.</p>
+
+        <div class="field">
+          <label for="clientName">Client name</label>
+          <input id="clientName" type="text" placeholder="e.g. Sarah Johnson" autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="clientEmail">Client email (optional)</label>
+          <input id="clientEmail" type="email" placeholder="e.g. sarah@company.com" autocomplete="off">
+        </div>
+
+        <button class="btn" id="createBtn">Create Room</button>
+
+        <div id="results">
+          <hr class="divider">
+
+          <div class="link-group">
+            <h3>Guest Link — Send to Client</h3>
+            <p>Share this link with your client before the meeting.</p>
+            <div class="link-row">
+              <input id="guestLink" type="text" readonly>
+              <button class="copy-btn" data-target="guestLink">Copy</button>
+            </div>
+          </div>
+
+          <div class="link-group">
+            <h3>Your Host Link — Moderator Access</h3>
+            <p>Use this link to join as host with recording controls.</p>
+            <div class="link-row">
+              <input id="hostLink" type="text" readonly>
+              <button class="copy-btn" data-target="hostLink">Copy</button>
+            </div>
+          </div>
+
+          <button class="btn btn-join" id="joinNowBtn">Join as Host Now</button>
+          <p class="or-text">or create another room</p>
+          <button class="btn" id="newRoomBtn" style="background:transparent;border:1px solid var(--border);margin-top:0;">New Room</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var TOKEN_URL = '/.netlify/functions/jitsi-token';
+
+      /* ── Auth gate ── */
+      var pinInput = document.getElementById('pinInput');
+      var authBtn = document.getElementById('authBtn');
+      var authError = document.getElementById('authError');
+
+      function tryAuth() {
+        var pin = pinInput.value.trim();
+        if (!pin) return;
+        // Verify PIN against the serverless function
+        fetch(TOKEN_URL + '?room=auth-check&name=host&pin=' + encodeURIComponent(pin))
+          .then(function (r) {
+            if (r.ok) {
+              sessionStorage.setItem('hostPin', pin);
+              showHostPanel();
+            } else {
+              authError.style.display = 'block';
+              pinInput.value = '';
+              pinInput.focus();
+            }
+          })
+          .catch(function () {
+            authError.style.display = 'block';
+          });
+      }
+
+      authBtn.addEventListener('click', tryAuth);
+      pinInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') tryAuth();
+      });
+
+      // Auto-unlock if PIN is stored in session
+      var savedPin = sessionStorage.getItem('hostPin');
+      if (savedPin) {
+        showHostPanel();
+      }
+
+      function showHostPanel() {
+        document.getElementById('auth-gate').style.display = 'none';
+        document.getElementById('host-panel').style.display = 'block';
+      }
+
+      /* ── Room creation ── */
+      var clientNameInput = document.getElementById('clientName');
+      var clientEmailInput = document.getElementById('clientEmail');
+      var createBtn = document.getElementById('createBtn');
+      var results = document.getElementById('results');
+      var guestLinkInput = document.getElementById('guestLink');
+      var hostLinkInput = document.getElementById('hostLink');
+
+      function generateRoomSlug(clientName) {
+        var now = new Date();
+        var date = now.toISOString().slice(0, 10).replace(/-/g, '');
+        var slug = clientName.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 12);
+        var rand = Math.random().toString(36).substring(2, 6);
+        return 'consult-' + slug + '-' + date + '-' + rand;
+      }
+
+      createBtn.addEventListener('click', function () {
+        var clientName = clientNameInput.value.trim();
+        if (!clientName) {
+          clientNameInput.focus();
+          return;
+        }
+
+        var clientEmail = clientEmailInput.value.trim();
+        var room = generateRoomSlug(clientName);
+        var pin = sessionStorage.getItem('hostPin') || '';
+
+        createBtn.disabled = true;
+        createBtn.textContent = 'Creating…';
+
+        // Fetch moderator token for host
+        var params = '?room=' + encodeURIComponent(room)
+          + '&name=' + encodeURIComponent('John Mathewson')
+          + '&email=john@johnmathewson.co'
+          + '&moderator=true'
+          + '&pin=' + encodeURIComponent(pin);
+
+        fetch(TOKEN_URL + params)
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (!data.token) throw new Error('No token returned');
+
+            var baseUrl = window.location.origin + '/meet/';
+            var guestUrl = baseUrl + '?room=' + encodeURIComponent(room)
+              + '&name=' + encodeURIComponent(clientName);
+            var hostUrl = baseUrl + '?room=' + encodeURIComponent(room)
+              + '&token=' + encodeURIComponent(data.token)
+              + '&name=' + encodeURIComponent('John Mathewson');
+
+            guestLinkInput.value = guestUrl;
+            hostLinkInput.value = hostUrl;
+            results.style.display = 'block';
+
+            document.getElementById('joinNowBtn').onclick = function () {
+              window.open(hostUrl, '_blank');
+            };
+
+            createBtn.disabled = false;
+            createBtn.textContent = 'Create Room';
+          })
+          .catch(function (err) {
+            alert('Failed to create room: ' + err.message);
+            createBtn.disabled = false;
+            createBtn.textContent = 'Create Room';
+          });
+      });
+
+      /* ── New room ── */
+      document.getElementById('newRoomBtn').addEventListener('click', function () {
+        results.style.display = 'none';
+        clientNameInput.value = '';
+        clientEmailInput.value = '';
+        clientNameInput.focus();
+      });
+
+      /* ── Copy buttons ── */
+      document.querySelectorAll('.copy-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var target = document.getElementById(btn.getAttribute('data-target'));
+          navigator.clipboard.writeText(target.value).then(function () {
+            var orig = btn.textContent;
+            btn.textContent = 'Copied!';
+            setTimeout(function () { btn.textContent = orig; }, 1500);
+          });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

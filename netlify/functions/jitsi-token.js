@@ -131,6 +131,17 @@ exports.handler = async (event) => {
   const name = params.name;
   const email = params.email || "";
   const isModerator = params.moderator === "true";
+  const pin = params.pin || "";
+
+  // ---- PIN check for moderator / host access ----
+  const hostPin = process.env.HOST_PIN;
+  if (isModerator && hostPin && pin !== hostPin) {
+    return {
+      statusCode: 403,
+      headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
+      body: JSON.stringify({ error: "Invalid host PIN." }),
+    };
+  }
 
   if (!room) {
     return {

@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /meet/host.html
 
 Sitemap: https://mygrowthconsultants.com/sitemap.xml
