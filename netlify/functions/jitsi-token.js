@@ -184,6 +184,7 @@ exports.handler = async (event) => {
         recording: true,
         transcription: false,
         "outbound-call": false,
+        "lobby": true,
       },
     },
     room,

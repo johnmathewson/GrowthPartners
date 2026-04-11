@@ -4,6 +4,7 @@
  * Receives BOOKING_CREATED webhooks from Cal.com and:
  * 1. Generates a unique, deterministic room name from the booking UID
  * 2. Updates the Cal.com booking location with the unique guest meeting URL
+ *    via Cal.com v2 API
  *
  * ----- SETUP -----
  * 1. Add CAL_API_KEY env var in Netlify (your Cal.com API key)
@@ -69,26 +70,29 @@ exports.handler = async (event) => {
     };
   }
 
-  const bookingId = payload.id;
   const bookingUid = payload.uid;
   const room = roomFromUid(bookingUid);
-  const attendee = (payload.attendees && payload.attendees[0]) || {};
-  const attendeeName = attendee.name || "Guest";
+  const attendees = payload.attendees || payload.responses?.attendees || [];
+  const attendee = Array.isArray(attendees) ? attendees[0] : {};
+  const attendeeName = attendee?.name || "Guest";
 
   const guestUrl =
     SITE_URL + "/meet/?room=" + encodeURIComponent(room) +
     "&name=" + encodeURIComponent(attendeeName);
 
-  console.log(`Booking ${bookingUid}: room=${room}, guest=${attendeeName}`);
+  console.log(`Booking ${bookingUid}: room=${room}, guest=${attendeeName}, url=${guestUrl}`);
 
-  // Update the Cal.com booking location to the unique meeting URL
+  // Try to reschedule/update the booking location via Cal.com v2 API
   try {
-    const patchUrl =
-      "https://api.cal.com/v1/bookings/" + bookingId + "?apiKey=" + calApiKey;
+    const patchUrl = "https://api.cal.com/v2/bookings/" + bookingUid;
 
     const res = await fetch(patchUrl, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + calApiKey,
+        "cal-api-version": "2024-08-13",
+      },
       body: JSON.stringify({
         location: guestUrl,
       }),
@@ -96,7 +100,7 @@ exports.handler = async (event) => {
 
     if (!res.ok) {
       const errText = await res.text();
-      console.error("Cal.com PATCH failed:", res.status, errText);
+      console.error("Cal.com v2 PATCH failed:", res.status, errText);
     } else {
       console.log("Cal.com booking location updated to:", guestUrl);
     }

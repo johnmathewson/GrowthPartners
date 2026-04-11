@@ -1,7 +1,7 @@
 /**
  * Netlify Function: Upcoming Bookings
  *
- * Fetches upcoming bookings from Cal.com API and returns them
+ * Fetches upcoming bookings from Cal.com v2 API and returns them
  * with deterministic room names for the host dashboard.
  *
  * GET /.netlify/functions/cal-bookings?pin=YOUR_HOST_PIN
@@ -53,13 +53,13 @@ exports.handler = async (event) => {
   }
 
   try {
-    // Fetch upcoming bookings (status=upcoming)
-    const now = new Date().toISOString();
-    const url =
-      "https://api.cal.com/v1/bookings?apiKey=" + calApiKey +
-      "&status=upcoming&afterStart=" + encodeURIComponent(now);
+    const res = await fetch("https://api.cal.com/v2/bookings?status=upcoming", {
+      headers: {
+        "Authorization": "Bearer " + calApiKey,
+        "cal-api-version": "2024-08-13",
+      },
+    });
 
-    const res = await fetch(url);
     if (!res.ok) {
       const errText = await res.text();
       console.error("Cal.com API error:", res.status, errText);
@@ -71,15 +71,17 @@ exports.handler = async (event) => {
     }
 
     const data = await res.json();
-    const bookings = (data.bookings || []).map((b) => {
+    const rawBookings = data.data || [];
+
+    const bookings = rawBookings.map((b) => {
       const attendee = (b.attendees && b.attendees[0]) || {};
       const room = roomFromUid(b.uid);
       return {
         id: b.id,
         uid: b.uid,
         title: b.title,
-        startTime: b.startTime,
-        endTime: b.endTime,
+        startTime: b.start,
+        endTime: b.end,
         attendeeName: attendee.name || "Guest",
         attendeeEmail: attendee.email || "",
         room,
