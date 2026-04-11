@@ -63,6 +63,8 @@ function normalizePrivateKey(key) {
   if (!key) return key;
   // Replace literal two-character "\n" sequences with real newlines
   let normalized = key.replace(/\\n/g, "\n");
+  // Strip Windows carriage returns
+  normalized = normalized.replace(/\r/g, "");
   // Ensure the key has proper newlines (in case it was pasted as one line)
   if (!normalized.includes("\n")) {
     normalized = normalized
