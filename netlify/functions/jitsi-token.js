@@ -55,11 +55,24 @@ const CORS_HEADERS = {
  * Normalize a PEM private key that may have had its newlines stripped.
  * Netlify sometimes stores multi-line env vars with literal "\n" strings
  * instead of actual newline characters.
+ * Also handles PKCS#8 format (BEGIN PRIVATE KEY) by creating a crypto KeyObject.
  */
+const crypto = require("crypto");
+
 function normalizePrivateKey(key) {
   if (!key) return key;
   // Replace literal two-character "\n" sequences with real newlines
-  return key.replace(/\\n/g, "\n");
+  let normalized = key.replace(/\\n/g, "\n");
+  // Ensure the key has proper newlines (in case it was pasted as one line)
+  if (!normalized.includes("\n")) {
+    normalized = normalized
+      .replace("-----BEGIN PRIVATE KEY-----", "-----BEGIN PRIVATE KEY-----\n")
+      .replace("-----END PRIVATE KEY-----", "\n-----END PRIVATE KEY-----")
+      .replace("-----BEGIN RSA PRIVATE KEY-----", "-----BEGIN RSA PRIVATE KEY-----\n")
+      .replace("-----END RSA PRIVATE KEY-----", "\n-----END RSA PRIVATE KEY-----");
+  }
+  // Convert PEM string to a crypto KeyObject (works with both PKCS#8 and PKCS#1)
+  return crypto.createPrivateKey(normalized);
 }
 
 exports.handler = async (event) => {
