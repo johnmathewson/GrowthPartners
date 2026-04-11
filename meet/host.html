@@ -196,6 +196,101 @@
       margin: 12px 0;
     }
 
+    /* ── Tabs ── */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 24px;
+    }
+    .tab {
+      flex: 1;
+      padding: 10px 16px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab.active { background: var(--surface); color: var(--text); }
+    .tab:hover:not(.active) { color: var(--text); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ── Bookings list ── */
+    .booking-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .booking-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    .booking-name {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .booking-time {
+      font-size: 12px;
+      color: var(--teal);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .booking-email {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .booking-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .booking-actions button {
+      flex: 1;
+      padding: 8px 12px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-host-join {
+      color: #fff;
+      background: linear-gradient(135deg, var(--coral), #d4363f);
+      border: none;
+    }
+    .btn-host-join:hover { box-shadow: 0 4px 16px rgba(254,66,77,0.3); }
+    .btn-copy-guest {
+      color: var(--teal);
+      background: rgba(26,166,183,0.1);
+      border: 1px solid rgba(26,166,183,0.3);
+    }
+    .btn-copy-guest:hover { background: rgba(26,166,183,0.2); }
+    .empty-state {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    .loading-state {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
     /* ── Auth gate ── */
     #auth-gate { display: block; }
     #host-panel { display: none; }
@@ -204,6 +299,7 @@
       .card { padding: 36px 20px 32px; border-radius: 16px; }
       h1 { font-size: 20px; }
       .link-row { flex-direction: column; }
+      .booking-actions { flex-direction: column; }
     }
   </style>
 </head>
@@ -227,45 +323,62 @@
 
       <!-- Host panel (shown after auth) -->
       <div id="host-panel">
-        <h1>Create Meeting Room</h1>
-        <p class="subtitle">Generate a private room for your next consultation.</p>
-
-        <div class="field">
-          <label for="clientName">Client name</label>
-          <input id="clientName" type="text" placeholder="e.g. Sarah Johnson" autocomplete="off">
+        <div class="tabs">
+          <button class="tab active" data-tab="upcoming">Upcoming</button>
+          <button class="tab" data-tab="create">New Room</button>
         </div>
 
-        <div class="field">
-          <label for="clientEmail">Client email (optional)</label>
-          <input id="clientEmail" type="email" placeholder="e.g. sarah@company.com" autocomplete="off">
+        <!-- Upcoming bookings tab -->
+        <div class="tab-content active" id="tab-upcoming">
+          <div id="bookings-loading" class="loading-state">Loading bookings…</div>
+          <div id="bookings-list"></div>
+          <div id="bookings-empty" class="empty-state" style="display:none;">
+            No upcoming bookings.<br>Create a manual room or wait for a Cal.com booking.
+          </div>
         </div>
 
-        <button class="btn" id="createBtn">Create Room</button>
+        <!-- Create room tab -->
+        <div class="tab-content" id="tab-create">
+          <h1>Create Meeting Room</h1>
+          <p class="subtitle">Generate a private room for your next consultation.</p>
 
-        <div id="results">
-          <hr class="divider">
-
-          <div class="link-group">
-            <h3>Guest Link — Send to Client</h3>
-            <p>Share this link with your client before the meeting.</p>
-            <div class="link-row">
-              <input id="guestLink" type="text" readonly>
-              <button class="copy-btn" data-target="guestLink">Copy</button>
-            </div>
+          <div class="field">
+            <label for="clientName">Client name</label>
+            <input id="clientName" type="text" placeholder="e.g. Sarah Johnson" autocomplete="off">
           </div>
 
-          <div class="link-group">
-            <h3>Your Host Link — Moderator Access</h3>
-            <p>Use this link to join as host with recording controls.</p>
-            <div class="link-row">
-              <input id="hostLink" type="text" readonly>
-              <button class="copy-btn" data-target="hostLink">Copy</button>
-            </div>
+          <div class="field">
+            <label for="clientEmail">Client email (optional)</label>
+            <input id="clientEmail" type="email" placeholder="e.g. sarah@company.com" autocomplete="off">
           </div>
 
-          <button class="btn btn-join" id="joinNowBtn">Join as Host Now</button>
-          <p class="or-text">or create another room</p>
-          <button class="btn" id="newRoomBtn" style="background:transparent;border:1px solid var(--border);margin-top:0;">New Room</button>
+          <button class="btn" id="createBtn">Create Room</button>
+
+          <div id="results">
+            <hr class="divider">
+
+            <div class="link-group">
+              <h3>Guest Link — Send to Client</h3>
+              <p>Share this link with your client before the meeting.</p>
+              <div class="link-row">
+                <input id="guestLink" type="text" readonly>
+                <button class="copy-btn" data-target="guestLink">Copy</button>
+              </div>
+            </div>
+
+            <div class="link-group">
+              <h3>Your Host Link — Moderator Access</h3>
+              <p>Use this link to join as host with recording controls.</p>
+              <div class="link-row">
+                <input id="hostLink" type="text" readonly>
+                <button class="copy-btn" data-target="hostLink">Copy</button>
+              </div>
+            </div>
+
+            <button class="btn btn-join" id="joinNowBtn">Join as Host Now</button>
+            <p class="or-text">or create another room</p>
+            <button class="btn" id="newRoomBtn" style="background:transparent;border:1px solid var(--border);margin-top:0;">New Room</button>
+          </div>
         </div>
       </div>
     </div>
@@ -274,6 +387,7 @@
   <script>
     (function () {
       var TOKEN_URL = '/.netlify/functions/jitsi-token';
+      var BOOKINGS_URL = '/.netlify/functions/cal-bookings';
 
       /* ── Auth gate ── */
       var pinInput = document.getElementById('pinInput');
@@ -283,7 +397,6 @@
       function tryAuth() {
         var pin = pinInput.value.trim();
         if (!pin) return;
-        // Verify PIN against the serverless function
         fetch(TOKEN_URL + '?room=auth-check&name=host&pin=' + encodeURIComponent(pin))
           .then(function (r) {
             if (r.ok) {
@@ -305,18 +418,123 @@
         if (e.key === 'Enter') tryAuth();
       });
 
-      // Auto-unlock if PIN is stored in session
       var savedPin = sessionStorage.getItem('hostPin');
-      if (savedPin) {
-        showHostPanel();
-      }
+      if (savedPin) showHostPanel();
 
       function showHostPanel() {
         document.getElementById('auth-gate').style.display = 'none';
         document.getElementById('host-panel').style.display = 'block';
+        loadBookings();
       }
 
-      /* ── Room creation ── */
+      /* ── Tabs ── */
+      document.querySelectorAll('.tab').forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          document.querySelectorAll('.tab').forEach(function (t) { t.classList.remove('active'); });
+          document.querySelectorAll('.tab-content').forEach(function (c) { c.classList.remove('active'); });
+          tab.classList.add('active');
+          document.getElementById('tab-' + tab.getAttribute('data-tab')).classList.add('active');
+        });
+      });
+
+      /* ── Load upcoming bookings ── */
+      function loadBookings() {
+        var pin = sessionStorage.getItem('hostPin') || '';
+        var loadingEl = document.getElementById('bookings-loading');
+        var listEl = document.getElementById('bookings-list');
+        var emptyEl = document.getElementById('bookings-empty');
+
+        loadingEl.style.display = 'block';
+        listEl.innerHTML = '';
+        emptyEl.style.display = 'none';
+
+        fetch(BOOKINGS_URL + '?pin=' + encodeURIComponent(pin))
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            loadingEl.style.display = 'none';
+            var bookings = data.bookings || [];
+            if (bookings.length === 0) {
+              emptyEl.style.display = 'block';
+              return;
+            }
+            bookings.forEach(function (b) {
+              listEl.appendChild(createBookingCard(b));
+            });
+          })
+          .catch(function (err) {
+            loadingEl.textContent = 'Could not load bookings. Cal.com may not be connected yet.';
+            console.error('Failed to load bookings:', err);
+          });
+      }
+
+      function createBookingCard(booking) {
+        var card = document.createElement('div');
+        card.className = 'booking-card';
+
+        var start = new Date(booking.startTime);
+        var dateStr = start.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+        var timeStr = start.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+        card.innerHTML =
+          '<div class="booking-header">' +
+            '<div class="booking-name">' + escHtml(booking.attendeeName) + '</div>' +
+            '<div class="booking-time">' + dateStr + ' · ' + timeStr + '</div>' +
+          '</div>' +
+          (booking.attendeeEmail ? '<div class="booking-email">' + escHtml(booking.attendeeEmail) + '</div>' : '') +
+          '<div class="booking-actions">' +
+            '<button class="btn-copy-guest" data-room="' + escAttr(booking.room) + '" data-name="' + escAttr(booking.attendeeName) + '">Copy Guest Link</button>' +
+            '<button class="btn-host-join" data-room="' + escAttr(booking.room) + '">Join as Host</button>' +
+          '</div>';
+
+        // Copy guest link
+        card.querySelector('.btn-copy-guest').addEventListener('click', function () {
+          var btn = this;
+          var guestUrl = window.location.origin + '/meet/?room=' + encodeURIComponent(btn.dataset.room) +
+            '&name=' + encodeURIComponent(btn.dataset.name);
+          navigator.clipboard.writeText(guestUrl).then(function () {
+            var orig = btn.textContent;
+            btn.textContent = 'Copied!';
+            setTimeout(function () { btn.textContent = orig; }, 1500);
+          });
+        });
+
+        // Join as host
+        card.querySelector('.btn-host-join').addEventListener('click', function () {
+          var btn = this;
+          var room = btn.dataset.room;
+          btn.disabled = true;
+          btn.textContent = 'Generating…';
+          var pin = sessionStorage.getItem('hostPin') || '';
+          var params = '?room=' + encodeURIComponent(room) +
+            '&name=' + encodeURIComponent('John Mathewson') +
+            '&email=john@johnmathewson.co&moderator=true' +
+            '&pin=' + encodeURIComponent(pin);
+
+          fetch(TOKEN_URL + params)
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+              if (!data.token) throw new Error('No token');
+              var hostUrl = window.location.origin + '/meet/?room=' + encodeURIComponent(room) +
+                '&token=' + encodeURIComponent(data.token) +
+                '&name=' + encodeURIComponent('John Mathewson');
+              window.open(hostUrl, '_blank');
+              btn.disabled = false;
+              btn.textContent = 'Join as Host';
+            })
+            .catch(function () {
+              btn.disabled = false;
+              btn.textContent = 'Join as Host';
+              alert('Failed to generate host token.');
+            });
+        });
+
+        return card;
+      }
+
+      function escHtml(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+      function escAttr(s) { return s.replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
+
+      /* ── Room creation (manual) ── */
       var clientNameInput = document.getElementById('clientName');
       var clientEmailInput = document.getElementById('clientEmail');
       var createBtn = document.getElementById('createBtn');
@@ -334,45 +552,31 @@
 
       createBtn.addEventListener('click', function () {
         var clientName = clientNameInput.value.trim();
-        if (!clientName) {
-          clientNameInput.focus();
-          return;
-        }
+        if (!clientName) { clientNameInput.focus(); return; }
 
-        var clientEmail = clientEmailInput.value.trim();
         var room = generateRoomSlug(clientName);
         var pin = sessionStorage.getItem('hostPin') || '';
 
         createBtn.disabled = true;
         createBtn.textContent = 'Creating…';
 
-        // Fetch moderator token for host
         var params = '?room=' + encodeURIComponent(room)
           + '&name=' + encodeURIComponent('John Mathewson')
-          + '&email=john@johnmathewson.co'
-          + '&moderator=true'
+          + '&email=john@johnmathewson.co&moderator=true'
           + '&pin=' + encodeURIComponent(pin);
 
         fetch(TOKEN_URL + params)
           .then(function (r) { return r.json(); })
           .then(function (data) {
             if (!data.token) throw new Error('No token returned');
-
             var baseUrl = window.location.origin + '/meet/';
-            var guestUrl = baseUrl + '?room=' + encodeURIComponent(room)
-              + '&name=' + encodeURIComponent(clientName);
-            var hostUrl = baseUrl + '?room=' + encodeURIComponent(room)
-              + '&token=' + encodeURIComponent(data.token)
-              + '&name=' + encodeURIComponent('John Mathewson');
+            var guestUrl = baseUrl + '?room=' + encodeURIComponent(room) + '&name=' + encodeURIComponent(clientName);
+            var hostUrl = baseUrl + '?room=' + encodeURIComponent(room) + '&token=' + encodeURIComponent(data.token) + '&name=' + encodeURIComponent('John Mathewson');
 
             guestLinkInput.value = guestUrl;
             hostLinkInput.value = hostUrl;
             results.style.display = 'block';
-
-            document.getElementById('joinNowBtn').onclick = function () {
-              window.open(hostUrl, '_blank');
-            };
-
+            document.getElementById('joinNowBtn').onclick = function () { window.open(hostUrl, '_blank'); };
             createBtn.disabled = false;
             createBtn.textContent = 'Create Room';
           })
@@ -383,7 +587,6 @@
           });
       });
 
-      /* ── New room ── */
       document.getElementById('newRoomBtn').addEventListener('click', function () {
         results.style.display = 'none';
         clientNameInput.value = '';
