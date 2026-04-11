@@ -61,20 +61,17 @@ const crypto = require("crypto");
 
 function normalizePrivateKey(key) {
   if (!key) return key;
-  // Replace literal two-character "\n" sequences with real newlines
-  let normalized = key.replace(/\\n/g, "\n");
-  // Strip Windows carriage returns
-  normalized = normalized.replace(/\r/g, "");
-  // Ensure the key has proper newlines (in case it was pasted as one line)
-  if (!normalized.includes("\n")) {
-    normalized = normalized
-      .replace("-----BEGIN PRIVATE KEY-----", "-----BEGIN PRIVATE KEY-----\n")
-      .replace("-----END PRIVATE KEY-----", "\n-----END PRIVATE KEY-----")
-      .replace("-----BEGIN RSA PRIVATE KEY-----", "-----BEGIN RSA PRIVATE KEY-----\n")
-      .replace("-----END RSA PRIVATE KEY-----", "\n-----END RSA PRIVATE KEY-----");
+  let pem = key;
+  // If the key is base64-encoded (no PEM header), decode it first
+  if (!pem.includes("-----BEGIN")) {
+    pem = Buffer.from(pem, "base64").toString("utf8");
   }
+  // Replace literal two-character "\n" sequences with real newlines
+  pem = pem.replace(/\\n/g, "\n");
+  // Strip Windows carriage returns
+  pem = pem.replace(/\r/g, "");
   // Convert PEM string to a crypto KeyObject (works with both PKCS#8 and PKCS#1)
-  return crypto.createPrivateKey(normalized);
+  return crypto.createPrivateKey(pem);
 }
 
 exports.handler = async (event) => {
