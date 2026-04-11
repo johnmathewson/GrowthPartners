@@ -245,7 +245,7 @@
       const params = new URLSearchParams(window.location.search);
       const roomParam = params.get('room') || generateRoom();
       const nameParam = params.get('name') || '';
-      const tokenParam = params.get('token') || null;
+      let tokenParam = params.get('token') || null;
 
       function generateRoom() {
         const seg = () => Math.random().toString(36).substring(2, 8);
@@ -258,10 +258,32 @@
 
       /* ── Join button ── */
       document.getElementById('joinBtn').addEventListener('click', function () {
+        const btn = document.getElementById('joinBtn');
         const displayName = nameInput.value.trim() || 'Guest';
-        loadJitsiAPI(function () {
-          startMeeting(displayName);
-        });
+        btn.disabled = true;
+        btn.textContent = 'Connecting…';
+
+        // If we already have a token from the URL, use it directly
+        if (tokenParam) {
+          loadJitsiAPI(function () { startMeeting(displayName); });
+          return;
+        }
+
+        // Otherwise fetch a guest JWT so JaaS honours our config overrides
+        var tokenUrl = '/.netlify/functions/jitsi-token'
+          + '?room=' + encodeURIComponent(roomParam)
+          + '&name=' + encodeURIComponent(displayName);
+
+        fetch(tokenUrl)
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (data.token) tokenParam = data.token;   // store for startMeeting
+            loadJitsiAPI(function () { startMeeting(displayName); });
+          })
+          .catch(function () {
+            // If token fetch fails, proceed without — meeting still works
+            loadJitsiAPI(function () { startMeeting(displayName); });
+          });
       });
 
       /* Allow Enter key */
