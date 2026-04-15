@@ -46,17 +46,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- Header -->
   <header class="site-header">
     <div class="container">
-      <a href="../index.html" class="site-logo">Growth Partners</a>
+      <a href="/" class="site-logo">Growth Partners</a>
       <button class="mobile-menu-btn" aria-label="Menu">&#9776;</button>
       <nav class="site-nav">
-        <a href="../index.html">Home</a>
-        <a href="../services/index.html">Services</a>
-        <a href="../locations/index.html">Locations</a>
-        <a href="../industries/index.html">Industries</a>
-        <a href="../case-studies/index.html">Case Studies</a>
-        <a href="/resources/">Resources</a>
-        <a href="../about/index.html">About</a>
-        <a href="../contact/index.html">Contact</a>
+        <a href="/">Home</a>
+        <a href="/services/">Services</a>
+        <a href="/locations/">Locations</a>
+        <a href="/industries/">Industries</a>
+        <a href="/case-studies/">Case Studies</a>
+        <a href="/pages/resources/">Resources</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
         <a href="tel:+12197819547" class="nav-phone">(219) 781-9547</a>
         <a href="https://cal.com/john-mathewson-xyghnd/30min" class="nav-cta">Free Consultation</a>
       </nav>
@@ -66,7 +66,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- Breadcrumb -->
   <div class="breadcrumb">
     <div class="container">
-      <a href="../index.html">Home</a>
+      <a href="/">Home</a>
       <span>&rsaquo;</span>
       <span class="current">Book a Consultation</span>
     </div>
@@ -118,10 +118,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="container content-narrow" style="text-align:center;">
       <h2>Pick a Time That Works</h2>
       <p>Select an available time slot below. If you don't see a time that works, call us directly at <a href="tel:+12197819547">(219) 781-9547</a>.</p>
-      <!-- Calendar Embed Placeholder -->
-      <div style="background:var(--white); border:2px dashed var(--gray-300); border-radius:12px; padding:4rem 2rem; margin-top:2rem;">
-        <p style="color:var(--gray-500); font-size:1.1rem; margin:0;">Calendar scheduling widget will be embedded here.<br>(Calendly, Cal.com, or similar)</p>
-      </div>
+      <!-- Cal.com Inline Embed -->
+      <div id="cal-booking" style="margin-top:2rem; border-radius:12px; overflow:hidden; min-height:600px;"></div>
+      <script type="text/javascript">
+        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+        Cal("init", {origin:"https://cal.com"});
+        Cal("inline", {
+          elementOrSelector: "#cal-booking",
+          calLink: "john-mathewson-xyghnd/30min",
+          layout: "month_view"
+        });
+        Cal("ui", {"styles":{"branding":{"brandColor":"#0d9488"}},"hideEventTypeDetails":false,"layout":"month_view"});
+      </script>
     </div>
   </section>
 

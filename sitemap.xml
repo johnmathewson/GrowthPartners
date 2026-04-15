@@ -23,7 +23,7 @@
   </url>
   <url>
     <loc>https://mygrowthconsultants.com/book/</loc>
-    <lastmod>2026-04-10</lastmod>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -434,12 +434,12 @@
   </url>
   <url>
     <loc>https://mygrowthconsultants.com/privacy/</loc>
-    <lastmod>2026-04-10</lastmod>
+    <lastmod>2026-04-15</lastmod>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://mygrowthconsultants.com/terms/</loc>
-    <lastmod>2026-04-10</lastmod>
+    <lastmod>2026-04-15</lastmod>
     <priority>0.3</priority>
   </url>
 
@@ -749,5 +749,11 @@
     <lastmod>2026-04-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://mygrowthconsultants.com/meet/</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 </urlset>
