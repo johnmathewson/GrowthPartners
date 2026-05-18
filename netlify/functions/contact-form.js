@@ -7,12 +7,11 @@
  * ----- SETUP -----
  * 1. Add SUPABASE_URL env var in Netlify (your Supabase project URL)
  * 2. Add SUPABASE_SERVICE_KEY env var in Netlify (your Supabase service_role key)
- *    NOTE: Use the service_role key (not anon key) so we can bypass RLS for inserts.
  *
  * ----- WHAT IT DOES -----
  * 1. Parses the form submission (name, email, phone, business, message)
  * 2. Checks if a prospect with the same email already exists (dedup)
- * 3. If new: inserts a prospect record with status='inbound_lead', ai_score=50
+ * 3. If new: inserts a prospect record with status='new', ai_readiness_score=50
  * 4. Creates a high-priority task: "Inbound lead from <name> — follow up within 24h"
  * 5. Returns a success/error JSON response
  */
@@ -24,7 +23,6 @@ const CORS_HEADERS = {
 };
 
 exports.handler = async (event) => {
-  // Handle CORS preflight
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 204, headers: CORS_HEADERS, body: "" };
   }
@@ -61,7 +59,6 @@ exports.handler = async (event) => {
       business = body.business;
       message = body.message;
     } else {
-      // URL-encoded form submission
       const params = new URLSearchParams(event.body);
       name = params.get("name");
       email = params.get("email");
@@ -92,7 +89,7 @@ exports.handler = async (event) => {
     "Prefer": "return=representation",
   };
 
-  // Step 1: Check for existing prospect with same email (dedup)
+  // Step 1: Dedup — check if prospect with same email already exists
   let existingProspect = null;
   try {
     const checkResp = await fetch(
@@ -110,37 +107,32 @@ exports.handler = async (event) => {
   let prospectId;
 
   if (existingProspect) {
-    // Prospect already in CRM — just log the new contact attempt
+    // Prospect already in CRM — update their outreach angle with the new message
     prospectId = existingProspect.id;
-    console.log(`Existing prospect found: ${existingProspect.business_name} (${existingProspect.id})`);
-
-    // Update notes to reflect re-contact
+    console.log(`Existing prospect found: ${existingProspect.business_name} (${prospectId})`);
     await fetch(
       `${supabaseUrl}/rest/v1/prospects?id=eq.${prospectId}`,
       {
         method: "PATCH",
         headers: sbHeaders,
         body: JSON.stringify({
-          notes: `[Re-contact via website form ${new Date().toISOString().split("T")[0]}]\nMessage: ${message}`,
+          outreach_angle: `[Re-contact via website form ${new Date().toISOString().split("T")[0]}] ${message}`,
           updated_at: new Date().toISOString(),
         }),
       }
     );
   } else {
-    // Step 2: Create new prospect record
+    // Step 2: Create new prospect record using actual schema field names
     const prospectPayload = {
       business_name: business || name,
-      contact_name: name,
+      owner_name: name,
       email: email,
       phone: phone || null,
-      city: null,
-      state: null,
       business_type: "inbound_lead",
       status: "new",
-      ai_score: 50,
+      ai_readiness_score: 50,
       pain_points: ["inbound_contact"],
-      notes: `Inbound contact via website form on ${new Date().toISOString().split("T")[0]}.\n\nMessage: ${message}`,
-      source: "website_contact_form",
+      outreach_angle: `Inbound contact via website form on ${new Date().toISOString().split("T")[0]}. Message: ${message}`,
       created_at: new Date().toISOString(),
     };
 
@@ -158,7 +150,7 @@ exports.handler = async (event) => {
         prospectId = insertData[0].id;
         console.log(`New prospect created: ${business || name} (${prospectId})`);
       } else {
-        console.error("Prospect insert returned unexpected data:", insertData);
+        console.error("Prospect insert returned unexpected data:", JSON.stringify(insertData));
       }
     } catch (err) {
       console.error("Prospect insert failed:", err.message);
@@ -167,7 +159,7 @@ exports.handler = async (event) => {
 
   // Step 3: Create a high-priority follow-up task
   if (prospectId) {
-    const taskTitle = `Inbound lead: ${name} (${business || "no business listed"}) — follow up within 24h`;
+    const taskTitle = `Inbound lead: ${name}${business ? ` (${business})` : ""} — follow up within 24h`;
     const taskPayload = {
       prospect_id: prospectId,
       title: taskTitle,
