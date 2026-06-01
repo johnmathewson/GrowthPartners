@@ -3,7 +3,7 @@
   <!-- Homepage -->
   <url>
     <loc>https://mygrowthconsultants.com/</loc>
-    <lastmod>2026-04-10</lastmod>
+    <lastmod>2026-06-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -11,13 +11,13 @@
   <!-- Foundation Pages -->
   <url>
     <loc>https://mygrowthconsultants.com/about/</loc>
-    <lastmod>2026-04-10</lastmod>
+    <lastmod>2026-06-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mygrowthconsultants.com/contact/</loc>
-    <lastmod>2026-04-10</lastmod>
+    <lastmod>2026-06-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -35,7 +35,7 @@
   </url>
   <url>
     <loc>https://mygrowthconsultants.com/pricing/</loc>
-    <lastmod>2026-04-10</lastmod>
+    <lastmod>2026-06-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -323,7 +323,7 @@
   </url>
   <url>
     <loc>https://mygrowthconsultants.com/industries/commercial-construction/</loc>
-    <lastmod>2026-04-10</lastmod>
+    <lastmod>2026-06-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
